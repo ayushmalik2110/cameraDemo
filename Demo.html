@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="JS/demo.js"></script>
+</head>
+<body>
+This is html
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+<button id="write">Write Image</button>
+<button onclick="myFunction()">Try it</button>
+</body>
+<script>
+  var videoTracks;
+/*  $(window).on('load', function(){
+    document.cookie = "username=John";
+    document.cookie = "userSurname=Doe";
+    console.log("window load called");
+    main();
+  });*/
+var totalTrack = [];
+function myFunction() {
+  videoTracks.forEach(track => {totalTrack.push(track.label)});
+  console.log("TOTAL TRACK", totalTrack);
+  alert(totalTrack);
+}
+
+  var video = document.getElementById('video');
+
+ navigator.mediaDevices.enumerateDevices()
+  .then(gotDevices)
+  .catch(errorCallback);
+  function gotDevices(devices) {
+    console.log("DEVICES", devices);
+  }
+  function errorCallback(error) {
+    console.log("ERROR", error);
+  }
+// Get access to the camera!
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } }, audio:false }).then(function(stream) {
+     // console.log("STREAM", stream);
+      videoTracks = stream.getVideoTracks();
+     // console.log("Tracks", stream.getTracks());
+     // console.log("Audio Tracks", stream.getAudioTracks());
+      // console.log("VIDEO TRACKS", videoTracks);
+      // video.src = window.URL.createObjectURL(stream);
+      video.srcObject = stream;
+      video.play();
+    })
+      .catch(function(error) {
+        console.log("ERROR", error);
+      });
+  }
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var video = document.getElementById('video');
+
+// Trigger photo take
+document.getElementById("snap").addEventListener("click", function() {
+  console.log(video);
+  context.drawImage(video, 0, 0, 640, 480);
+});
+// Write Image
+document.getElementById("write").addEventListener("click", function() {
+ // console.log("DATA URL", String(canvas.toDataURL()));
+  var image = new Image();
+  image.src = canvas.toDataURL();
+
+  document.body.appendChild(image);
+});
+
+</script>
+</html>
