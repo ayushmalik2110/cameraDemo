@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <script>
+                        function onClickLink() {
+                                
+                                var link = document.getElementById("iFrameLink").value;
+                                document.getElementById("mylink").href = link;
+                                document.getElementById("mylink").innerText = link;
+
+                                console.log('link -->', link);
+                        }
+                        
+                </script>
+        </head>
+<body>
+
+<h2>Iframe tester</h2>
+<iframe
+ height="500"
+ width="600"
+ name="myIframe"
+ id="iFrame"
+ >
+</iframe>
+
+<div>
+        <input type="text" id='iFrameLink' value='http://demo.automationtesting.in/Frames.html'>
+        <a onclick="onClickLink()">
+                submit
+        </a>
+</div>
+
+<div>
+        <a id='mylink' target="myIframe">
+                http://demo.automationtesting.in/Frames.html
+        </a>
+</div>
+
+
+</body>
+</html>
